@@ -1,0 +1,640 @@
+
+
+```{r}
+data = read.csv('/Users/joesiezheng/Dropbox/Mac/Desktop/Framework\ and\ method\ 1/kaggle/rentlala2021/analysisData.csv')
+
+scoringData = read.csv('/Users/joesiezheng/Dropbox/Mac/Desktop/Framework\ and\ method\ 1/kaggle/rentlala2021/scoringData.csv')
+```
+
+
+
+
+
+######## transforming t/f to 1/0 and converting categorical variables to numeric variables #########
+
+```{r}
+data$host_is_superhost[data$host_is_superhost == "t"] = 1
+data$host_is_superhost[data$host_is_superhost == "f"] = 0
+scoringData$host_is_superhost[scoringData$host_is_superhost == "t"] = 1
+scoringData$host_is_superhost[scoringData$host_is_superhost == "f"] = 0
+data$host_is_superhost = as.numeric(data$host_is_superhost)
+scoringData$host_is_superhost = as.numeric(scoringData$host_is_superhost)
+
+
+data$host_has_profile_pic[data$host_has_profile_pic == "t"] = 1
+data$host_has_profile_pic[data$host_has_profile_pic == "f"] = 0
+scoringData$host_has_profile_pic[scoringData$host_has_profile_pic == "t"] = 1
+scoringData$host_has_profile_pic[scoringData$host_has_profile_pic == "f"] = 0
+data$host_has_profile_pic = as.numeric(data$host_has_profile_pic)
+scoringData$host_has_profile_pic = as.numeric(scoringData$host_has_profile_pic)
+
+
+data$host_identity_verified[data$host_identity_verified == "t"] = 1
+data$host_identity_verified[data$host_identity_verified == "f"] = 0
+scoringData$host_identity_verified[scoringData$host_identity_verified == "t"] = 1
+scoringData$host_identity_verified[scoringData$host_identity_verified == "f"] = 0
+data$host_identity_verified = as.numeric(data$host_identity_verified)
+scoringData$host_identity_verified = as.numeric(scoringData$host_identity_verified)
+
+ 
+data$is_location_exact[data$is_location_exact == "t"] = 1
+data$is_location_exact[data$is_location_exact == "f"] = 0
+scoringData$is_location_exact[scoringData$is_location_exact == "t"] = 1
+scoringData$is_location_exact[scoringData$is_location_exact == "f"] = 0
+data$is_location_exact = as.numeric(data$is_location_exact)
+scoringData$is_location_exact = as.numeric(scoringData$is_location_exact)
+
+
+data$has_availability[data$has_availability == "t"] = 1
+data$has_availability[data$has_availabilityt == "f"] = 0
+scoringData$has_availability[scoringData$has_availability == "t"] = 1
+scoringData$has_availability[scoringData$has_availability == "f"] = 0
+data$has_availability = as.numeric(data$has_availability)
+scoringData$has_availability = as.numeric(scoringData$has_availability)
+
+data$requires_license[data$requires_license == "t"] = 1
+data$requires_license[data$requires_license == "f"] = 0
+scoringData$requires_license[scoringData$requires_license == "t"] = 1
+scoringData$requires_license[scoringData$requires_license == "f"] = 0
+data$requires_license = as.numeric(data$requires_license)
+scoringData$requires_license = as.numeric(scoringData$requires_license)
+
+
+
+data$instant_bookable[data$instant_bookable == "t"] = 1
+data$instant_bookable[data$instant_bookable == "f"] = 0
+scoringData$instant_bookable[scoringData$instant_bookable == "t"] = 1
+scoringData$instant_bookable[scoringData$instant_bookable == "f"] = 0
+data$instant_bookable = as.numeric(data$instant_bookable)
+scoringData$instant_bookable = as.numeric(scoringData$instant_bookable)
+
+
+
+data$require_guest_phone_verification[data$require_guest_phone_verification == "t"] = 1
+data$require_guest_phone_verification[data$require_guest_phone_verification == "f"] = 0
+scoringData$require_guest_phone_verification[scoringData$require_guest_phone_verification == "t"] = 1
+scoringData$require_guest_phone_verification[scoringData$require_guest_phone_verification == 'f'] = 0
+data$require_guest_phone_verification = as.numeric(data$require_guest_phone_verification)
+scoringData$require_guest_phone_verification = as.numeric(scoringData$require_guest_phone_verification)
+
+data$is_business_travel_ready[data$is_business_travel_ready == "t"] = 1
+data$is_business_travel_ready[data$is_business_travel_ready == "f"] = 0
+scoringData$is_business_travel_ready[scoringData$is_business_travel_ready == "t"] = 1
+scoringData$is_business_travel_ready[scoringData$is_business_travel_ready == 'f'] = 0
+data$is_business_travel_ready = as.numeric(data$is_business_travel_ready)
+scoringData$is_business_travel_ready = as.numeric(scoringData$is_business_travel_ready)
+```
+
+
+
+
+################# Imput NA as 0 ################################################
+
+```{r}
+data$cleaning_fee[is.na(data$cleaning_fee)] = 0
+scoringData$cleaning_fee[is.na(scoringData$cleaning_fee)] = 0
+
+data$security_deposit[is.na(data$security_deposit)] = 0
+scoringData$security_deposit[is.na(scoringData$security_deposit)] = 0
+
+data$beds[is.na(data$beds)] = 0
+scoringData$beds[is.na(scoringData$beds)] = 0
+
+data$reviews_per_month[is.na(data$reviews_per_month)]= 0
+scoringData$reviews_per_month[is.na(scoringData$reviews_per_month)] = 0
+
+
+data$host_is_superhost[is.na(data$host_is_superhost)] = 0
+scoringData$host_is_superhost[is.na(scoringData$host_is_superhost)] = 0
+
+scoringData$reviews_per_month[is.na(scoringData$reviews_per_month)] = 0
+
+data$host_response_time[is.na(data$host_response_time)] = 0
+
+data$is_business_travel_ready[is.na(data$is_business_travel_ready)] = 0
+scoringData$is_business_travel_ready[is.na(scoringData$is_business_travel_ready)] = 0
+
+data$host_has_profile_pic[is.na(data$host_has_profile_pic)] = 0
+scoringData$host_has_profile_pic[is.na(scoringData$host_has_profile_pic)] = 0
+
+data$host_identity_verified[is.na(data$host_identity_verified)] = 0
+scoringData$host_identity_verified[is.na(scoringData$host_identity_verified)] = 0
+```
+
+
+
+#############################  cleaning Data  #######################################
+
+```{r}
+library(VIM)
+data1<-kNN(data, variable = c('cleaning_fee','security_deposit','beds'), metric = NULL, k = 5,
+           dist_var = colnames(data), weights = NULL, numFun = median,
+           catFun = maxCat, makeNA = NULL, NAcond = NULL, impNA = TRUE,
+           donorcond = NULL, mixed = vector(), mixed.constant = NULL,
+           trace = FALSE, imp_var = TRUE, imp_suffix = "imp", addRandom = FALSE,
+           useImputedDist = TRUE, weightDist = FALSE)
+
+scoringdata1<-kNN(scoringData, variable = c('cleaning_fee','security_deposit','beds'), metric = NULL, k = 5,
+                  dist_var = colnames(scoringData), weights = NULL, numFun = median,
+                  catFun = maxCat, makeNA = NULL, NAcond = NULL, impNA = TRUE,
+                  donorcond = NULL, mixed = vector(), mixed.constant = NULL,
+                  trace = FALSE, imp_var = TRUE, imp_suffix = "imp", addRandom = FALSE,
+                  useImputedDist = TRUE, weightDist = FALSE)
+
+data$cleaning_fee<-data1$cleaning_fee
+scoringData$cleaning_fee<-scoringdata1$cleaning_fee
+data$security_deposit<-data1$security_deposit
+scoringData$security_deposit<-scoringdata1$security_deposit
+data$beds<-data1$beds
+scoringData$beds<-scoringdata1$beds
+```
+
+
+
+########################## cleaning property_type ########################### 
+
+```{r}
+data$property_type[!data$property_type=='Apartment'&
+                     !data$property_type=='House'&
+                     !data$property_type=='Loft'&
+                     !data$property_type=='Condominium'&
+                     !data$property_type=='Townhouse']<-'Other'
+
+scoringData$property_type[!scoringData$property_type=='Apartment'&
+                            !scoringData$property_type=='House'&
+                            !scoringData$property_type=='Loft'&
+                            !scoringData$property_type=='Condominium'&
+                            !scoringData$property_type=='Townhouse']<-'Other'
+
+data$property_type<-as.factor(data$property_type)
+
+scoringData$property_type<-as.factor(scoringData$property_type)
+
+scoringData$property_type<-factor(scoringData$property_type,levels=levels(data$property_type))
+
+
+```
+
+
+
+
+
+
+############################  creating new variables by using host response time ####################
+
+```{r}
+library(stringr)
+data$hour = str_detect(data$host_response_time, 'hour')
+scoringData$hour = str_detect(scoringData$host_response_time, 'hour')
+data$hour = as.numeric(data$hour)
+scoringData$data = as.numeric(scoringData$hour)
+cor(data$hour, data$price)
+
+data$hours = str_detect(data$host_response_time, 'hours')
+scoringData$hours = str_detect(scoringData$host_response_time, 'hours')
+data$hours = as.numeric(data$hours)
+scoringData$data = as.numeric(scoringData$data)
+cor(data$hours, data$price)
+
+data$day = str_detect(data$host_response_time, 'day')
+scoringData$day = str_detect(scoringData$host_response_time, 'day')
+data$day = as.numeric(data$day)
+scoringData$day = as.numeric(scoringData$day)
+cor(data$price, data$day)
+```
+
+
+
+############################ creating new variables by using amenities ############################
+
+```{r}
+library(stringr)
+data$freeP = str_detect(data$amenities, 'Free street parking')
+scoringData$freeP = str_detect(scoringData$amenities, 'Free street parking')
+data$freeP = as.numeric(data$freeP)
+scoringData$freeP = as.numeric(scoringData$freeP)
+cor(data$freeP, data$price)
+
+data$famkid = str_detect(data$amenities, 'Family/kid friendly')
+scoringData$famkid = str_detect(scoringData$amenities, 'Family/kid friendly')
+data$famkid = as.numeric(data$famkid)
+scoringData$famkid = as.numeric(scoringData$famkid)
+cor(data$famkid, data$price)
+
+
+data$fp = str_detect(data$amenities,'Indoor fireplace')
+scoringData$fp = str_detect(scoringData$amenities,'Indoor fireplace')
+data$ifp = as.numeric(data$fp)
+scoringData$fp = as.numeric(scoringData$fp)
+cor(data$ifp,data$price)
+
+
+data$ti = str_detect(data$amenities,c('Cable TV','Internet'))
+scoringData$ti = str_detect(scoringData$amenities,c('Cable TV','Internet'))
+data$ti = as.numeric(data$ti)
+scoringData$ti = as.numeric(scoringData$ti)
+cor(data$ti,data$price)
+
+data$gt = str_detect(data$amenities,c('Gym','TV'))
+scoringData$gt = str_detect(scoringData$amenities,c('Gym','TV'))
+data$gt = as.numeric(data$gt)
+scoringData$gt = as.numeric(scoringData$gt)
+cor(data$gt,data$price)
+
+
+data$wd = str_detect(data$amenities,c('Washer','Dryer'))
+scoringData$wd = str_detect(scoringData$amenities,c('Washer','Dryer'))
+data$wd = as.numeric(data$wd)
+scoringData$wd = as.numeric(scoringData$wd)
+cor(data$wd,data$price)
+
+
+data$tct = str_detect(data$amenities,c('TV','Cable TV'))
+scoringData$tct = str_detect(scoringData$amenities,c('TV','Cable TV'))
+data$tct = as.numeric(data$tct)
+scoringData$tct = as.numeric(scoringData$tct)
+cor(data$tct,data$price)
+
+data$iron = str_detect(data$amenities,'iron')
+scoringData$iron = str_detect(scoringData$amenities,'iron')
+data$iron = as.numeric(data$iron)
+scoringData$iron = as.numeric(scoringData$iron)
+cor(data$iron,data$price)
+
+data$ih = str_detect(data$amenities,c('Iron','Hair dryer'))
+scoringData$ih = str_detect(scoringData$amenities,c('Iron','Hair dryer'))
+data$ih = as.numeric(data$ih)
+scoringData$ih = as.numeric(scoringData$ih)
+cor(data$ih,data$price)
+
+data$lt = str_detect(data$amenities,c('Laptop','TV'))
+scoringData$lt = str_detect(scoringData$amenities,c('Laptop','TV'))
+data$lt = as.numeric(data$lt)
+scoringData$lt = as.numeric(scoringData$lt)
+cor(data$lt,data$price)
+
+data$dm = str_detect(data$amenities,'Doorman')
+scoringData$dm = str_detect(scoringData$amenities,'Doorman')
+data$dm = as.numeric(data$dm)
+scoringData$dm = as.numeric(scoringData$dm)
+cor(data$dm,data$price)
+
+
+data$wc = str_detect(data$amenities,'Wheelchair')
+scoringData$wc = str_detect(scoringData$amenities,'Wheelchair')
+data$wc = as.numeric(data$wc)
+scoringData$wc = as.numeric(scoringData$wc)
+cor(data$wc,data$price)
+
+data$d = str_detect(data$amenities,'Air conditioning')
+scoringData$d = str_detect(scoringData$amenities,'Air conditioning')
+data$d = as.numeric(data$d)
+scoringData$d = as.numeric(scoringData$d)
+cor(data$d,data$price)
+
+data$bu = str_detect(data$amenities,'Buzzer')
+scoringData$bu = str_detect(scoringData$amenities,'Buzzer')
+data$bu = as.numeric(data$bu)
+scoringData$bu = as.numeric(scoringData$bu)
+cor(data$bu,data$price)
+
+data$fe = str_detect(data$amenities,'fire')
+scoringData$fe = str_detect(scoringData$amenities,'fire')
+data$fe = as.numeric(data$fe)
+scoringData$fe = as.numeric(scoringData$fe)
+cor(data$fe, data$price)
+```
+
+
+#######################using information from description and summary ##############################
+
+```{r}
+library(stringr)
+data$lux = str_detect(data$summary,'luxurious')
+scoringData$lux = str_detect(scoringData$summary,'luxurious')
+data$lux = as.numeric(data$lux)
+scoringData$lux = as.numeric(scoringData$lux)
+cor(data$lux,data$price)
+
+data$reno = str_detect(data$summary,'renovated')
+scoringData$reno = str_detect(scoringData$summary,'renovated')
+data$reno = as.numeric(data$reno)
+scoringData$reno = as.numeric(scoringData$reno)
+cor(data$reno,data$price)
+
+data$clean = str_detect(data$summary,'clean')
+scoringData$clean = str_detect(scoringData$summary,'clean')
+data$clean = as.numeric(data$clean)
+scoringData$clean = as.numeric(scoringData$clean)
+cor(data$clean,data$price)
+
+data$cozy = str_detect(data$summary, 'cozy')
+scoringData$cozy = str_detect(scoringData$summary, 'cozy')
+data$cozy = as.numeric(data$cozy)
+scoringData$cozy = as.numeric(scoringData$cozy)
+cor(data$cozy, data$price)
+
+data$terrace = str_detect(data$summary, 'terrace')
+scoringData$terrace = str_detect(scoringData$summary, 'terrace')
+data$terrace = as.numeric(data$terrace)
+scoringData$terrace = as.numeric(scoringData$terrace)
+cor(data$terrace, data$price)
+
+data$threebrm = str_detect(data$summary, '3 bedroom')
+scoringData$threebrm = str_detect(scoringData$summary, '3 bedroom')
+data$threebrm = as.numeric(data$threebrm)
+scoringData$threebrm = as.numeric(scoringData$threebrm)
+cor(data$threebrm, data$price)
+
+data$gplx = str_detect(data$summary, 'garden duplex')
+scoringData$gplx = str_detect(scoringData$summary, 'garden duplex')
+data$gplx = as.numeric(data$gplx)
+scoringData$gplx = as.numeric(scoringData$gplx)
+cor(data$gplx, data$price)
+
+data$cp = str_detect(data$summary, 'central park')
+scoringData$cp = str_detect(scoringData$summary, 'central park')
+data$cp = as.numeric(data$cp)
+scoringData$cp = as.numeric(scoringData$cp)
+cor(data$cp, data$price)
+
+
+data$dsc = str_detect(data$description,'private')
+scoringData$dsc = str_detect(scoringData$description,'private')
+data$dsc = as.numeric(data$dsc)
+scoringData$dsc = as.numeric(scoringData$dsc)
+cor(data$dsc,data$price)
+
+data$quiet = str_detect(data$neighborhood_overview,'quiet')
+scoringData$quiet = str_detect(scoringData$neighborhood_overview,'quiet')
+data$quiet = as.numeric(data$quiet)
+scoringData$quiet = as.numeric(scoringData$quiet)
+cor(data$quiet,data$price)
+
+data$spacious = str_detect(data$description,'spacious')
+scoringData$spacious = str_detect(scoringData$description,'spacious')
+data$spacious = as.numeric(data$spacious)
+scoringData$spacious = as.numeric(scoringData$spacious)
+cor(data$spacious,data$price)
+```
+
+
+
+#####feature selection################## rmse = 81.39929
+```{r}
+library(glmnet)
+x = model.matrix(price~neighbourhood_group_cleansed+
+                   security_deposit+
+                   instant_bookable+
+                   calculated_host_listings_count+
+                   reviews_per_month+availability_30+
+                   availability_365+
+                   minimum_nights+
+                   maximum_nights+
+                   host_has_profile_pic+
+                   bed_type+
+                   is_location_exact+
+                   guests_included+
+                   extra_people+
+                   room_type+
+                   property_type+
+                   bedrooms+
+                   bathrooms+
+                   beds+
+                   accommodates+
+                   cleaning_fee+
+                   cancellation_policy+
+                   is_business_travel_ready+
+                   fp+
+                   ti+
+                   host_is_superhost+
+                   review_scores_location+
+                   terrace+
+                   cp+
+                   threebrm+
+                   host_identity_verified,data=data)
+
+y = data$price
+fit = glmnet(x,y, alpha=1) 
+cv.lasso = cv.glmnet(x,y,alpha=1) 
+lambda_best = cv.lasso$lambda.min
+cvfit = glmnet(x,y, alpha = 1, lambda = lambda_best, standardize = TRUE)
+pred_lassodata = predict(cvfit,s = lambda_best,newx = x)
+plot(fit,xvar='lambda',label=T)
+plot(fit,xvar='dev',label=T)
+ 
+plot(cv.lasso)
+coef(cv.lasso)
+
+rmse = mean(sqrt(cv.lasso$cvm))
+
+```
+
+
+
+##### XGBoost ####################################
+
+```{r}
+library(xgboost)
+library(readr)
+library(stringr)
+library(caret)
+library(car)
+```
+
+
+
+###counting the number of amenities
+```{r}
+a = strsplit(as.character(data$amenities), ",")
+b = c()
+for (i in 1:length(a)){
+  b[i] = length(a[[i]])
+}
+data$num_amenities = b
+a1 = strsplit(as.character(scoringData$amenities), ",")
+b1 = c()
+for (i in 1:length(a1)){
+  b1[i] = length(a1[[i]])
+}
+scoringData$num_amenities = b1
+cor(data$num_amenities,data$price)
+```
+
+
+#matrix for data
+
+```{r}
+data40= subset(data, select = c(price,
+                                num_amenities,
+                                square_feet,
+                                weekly_price,
+                                host_response_time,
+                                host_response_rate,
+                                review_scores_rating,
+                                availability_60,
+                                availability_90,
+                                neighbourhood_group_cleansed,
+                                security_deposit,
+                                calculated_host_listings_count,
+                                reviews_per_month,
+                                availability_30,
+                                availability_365,
+                                minimum_nights,
+                                maximum_nights,
+                                is_location_exact,
+                                guests_included,
+                                extra_people,
+                                room_type,
+                                property_type,
+                                bedrooms,
+                                bathrooms,
+                                beds,
+                                accommodates,
+                                cleaning_fee,
+                                cancellation_policy,
+                                is_business_travel_ready,
+                                fp,
+                                host_is_superhost,
+                                d,lt,ih,dm,wc,ti,gt,bu,lux,
+                                host_identity_verified))
+```
+
+
+
+
+######split into train and test data#########
+
+```{r}
+library(caret)
+set.seed(1070)
+lala<-createDataPartition(data40$price,p = 0.7,list=FALSE,groups = 100)
+train<-data40[lala,]
+test<-data40[-lala,]
+```
+
+
+
+
+
+
+
+
+#matrix for scoringData
+```{r}
+scoringData$price = NA
+scoringData40=subset(scoringData,select=c(price,
+                                          num_amenities,
+                                          square_feet,
+                                          weekly_price,
+                                          host_response_time,
+                                          host_response_rate,
+                                          review_scores_rating,
+                                          availability_60,
+                                          availability_90,
+                                          neighbourhood_group_cleansed,
+                                          security_deposit,
+                                          calculated_host_listings_count,
+                                          reviews_per_month,
+                                          availability_30,
+                                          availability_365,
+                                          minimum_nights,
+                                          maximum_nights,
+                                          is_location_exact,
+                                          guests_included,
+                                          extra_people,
+                                          room_type,
+                                          property_type,
+                                          bedrooms,
+                                          bathrooms,
+                                          beds,
+                                          accommodates,
+                                          cleaning_fee,
+                                          cancellation_policy,
+                                          is_business_travel_ready,
+                                          fp,
+                                          host_is_superhost,
+                                          d,lt,ih,dm,wc,ti,gt,bu,lux,
+                                          host_identity_verified))
+```
+
+
+
+
+
+
+#cross validation to tune parameters
+```{r}
+cv.res=xgb.cv(data = data.matrix(train[,-1]),nfold=5,label = train$price,nround=3000, objective="reg:linear")
+```
+
+#parameters for my final model
+```{r}
+xgb<- xgboost(data = data.matrix(train[,-1]), 
+                 label = train$price, 
+                 eta = 0.01,gamma=0,
+                 max_depth = 7,
+                 nround=6000, 
+                 objective="reg:linear",
+                 early_stopping_rounds=50,
+                 print_every_n=500,
+                 subsample = 0.5,
+                 seed =1)
+ 
+```
+
+ 
+
+#train rmse : 22.946
+```{r}
+predxgb<-predict(xgb,newdata=data.matrix(train[,-1]))
+RMSE(train$price, predxgb)
+```
+
+#test rmse : 63.12298
+```{r}
+predxgb1<-predict(xgb,newdata=data.matrix(test[,-1]))
+RMSE(test$price,predxgb1)
+```
+
+
+#running the same model on whole dataset
+```{r}
+xgb1<- xgboost(data = data.matrix(data40[,-1]), 
+                  label = data40$price, 
+                  eta = 0.1,
+                  gamma=0,
+                  max_depth = 7,
+                  nround=6000, 
+                  objective="reg:linear",
+                  early_stopping_rounds=50,
+                  print_every_n=500,
+                  subsample = 0.5,
+                  set.seed (1))
+
+summary(xgb1)
+```
+
+#RMSE for data 
+```{r}
+predxgb2<-predict(xgb1,newdata=data.matrix(data40[,-1]))
+RMSE(data40$price,predxgb2)
+```
+
+
+
+
+#predictions on scoringData
+
+```{r}
+predxb3<-predict(xgb1,newdata=data.matrix(scoringData40[,-1]))
+predxb3
+```
+
+#submission public RMSE: 67.75776. private RMSE: 61.29345
+```{r}
+submissionFile= data.frame(id = scoringData$id, price = predxb3)
+write.csv(submissionFile, 'sample_submission5.csv',row.names = F) 
+```
+
+
